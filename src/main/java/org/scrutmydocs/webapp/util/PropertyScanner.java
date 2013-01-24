@@ -18,8 +18,11 @@ public class PropertyScanner {
     public static ScrutMyDocsProperties scanPropertyFile() throws IOException {
 		ScrutMyDocsProperties smdProps = new ScrutMyDocsProperties();
 		
-		String userHome = System.getProperty("user.home");
-		FileSystemResource resource = new FileSystemResource(userHome + "/.scrutmydocs/config/scrutmydocs.properties");
+		final String SCRUTMYDOCS_PROP_DIR = "/etc/scrutmydocs";
+		
+		//String userHome = System.getProperty("user.home");
+		//FileSystemResource resource = new FileSystemResource(userHome + "/.scrutmydocs/config/scrutmydocs.properties");
+		FileSystemResource resource = new FileSystemResource(SCRUTMYDOCS_PROP_DIR + "/config/scrutmydocs.properties");
 		Properties props = null;
 		try {
 			props = PropertiesLoaderUtils.loadProperties(resource);		
@@ -29,7 +32,8 @@ public class PropertyScanner {
 
 		if (props == null) {
 			// Build the file from the Classpath
-			FileSystemResource configDir = new FileSystemResource(userHome + "/.scrutmydocs/config/");
+			//FileSystemResource configDir = new FileSystemResource(userHome + "/.scrutmydocs/config/");
+			FileSystemResource configDir = new FileSystemResource(SCRUTMYDOCS_PROP_DIR + "/config/");
 			ClassPathResource classPathResource = new ClassPathResource("/scrutmydocs/config/scrutmydocs.properties");
 			
 			File from = classPathResource.getFile();
@@ -41,12 +45,14 @@ public class PropertyScanner {
 		}
 		
 		if (props == null) {
-			throw new RuntimeException("Can not build ~/.scrutmydocs/config/scrutmydocs.properties file. Check that current user have a write access");
+			//throw new RuntimeException("Can not build ~/.scrutmydocs/config/scrutmydocs.properties file. Check that current user have a write access");
+			throw new RuntimeException("Can not build "+ SCRUTMYDOCS_PROP_DIR + "/config/scrutmydocs.properties file. Check that current user has write access");
 		}
 		else {
 			smdProps.setNodeEmbedded(getProperty(props, "node.embedded", true));
 			smdProps.setClusterName(getProperty(props, "cluster.name", "scrutmydocs"));
-			FileSystemResource configDir = new FileSystemResource(userHome + "/.scrutmydocs/config/esdata/");
+			//FileSystemResource configDir = new FileSystemResource(userHome + "/.scrutmydocs/config/esdata/");
+			FileSystemResource configDir = new FileSystemResource(SCRUTMYDOCS_PROP_DIR + "/config/esdata/");
 			smdProps.setPathData(getProperty(props, "path.data", configDir.getPath()));
 			smdProps.setNodeAdresses(getPropertyAsArray(props, "node.addresses", "localhost:9300,localhost:9301"));
 			
