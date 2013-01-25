@@ -6,8 +6,6 @@ import org.elasticsearch.common.Base64;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.scrutmydocs.webapp.api.document.data.Document;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
-import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.service.document.DocumentService;
 import org.scrutmydocs.webapp.service.settings.rivers.fs.AdminFSRiverService;
 import org.scrutmydocs.webapp.util.ESHelper;
@@ -31,18 +29,18 @@ public class AppPostProcessor implements
 		// We only inject beans when we start the Root applicationContext, aka there's no parent!
 		if (event.getApplicationContext().getParent() == null) {
 			try {
-				logger.warn("TODO : remove automatic river creation. Just here for example purpose! See org.scrutmydocs.webapp.configuration.AppPostProcessor.");
+				//logger.warn("TODO : remove automatic river creation. Just here for example purpose! See org.scrutmydocs.webapp.configuration.AppPostProcessor.");
 
 				// We create the default mapping
 				ESHelper.createIndexIfNeeded(client);
 				
 				// We are going to create two filesystem rivers
-				fsRiverService.start(new FSRiver("myfirstriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", "/tmp_es", 30L, "standard", true));
-				fsRiverService.start(new FSRiver("mysecondriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan second dir", "/tmp_es_second", 30L, "standard", false));
+				//fsRiverService.start(new FSRiver("myfirstriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", "/tmp_es", 30L, "standard", true));
+				//fsRiverService.start(new FSRiver("mysecondriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan second dir", "/tmp_es_second", 30L, "standard", false));
 
 				// Add some sample files
-				pushSampleDoc("LICENSE");
-				pushSampleDoc("NOTICE");
+				//pushSampleDoc("LICENSE");
+				//pushSampleDoc("NOTICE");
 			} catch (ElasticSearchException e) {
 				logger.error("Error while creating rivers", e);
 			}
